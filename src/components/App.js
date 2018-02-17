@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Paper from 'material-ui/Paper';
+import AppBar from 'material-ui/AppBar';
 import Home from './Home';
 import DecentPostNav from './DecentPostNav'
 import {push} from "react-router-redux";
 import contractABI from 'contracts/DecentPost.json';
 import contract from 'truffle-contract';
-
-const style = {
-  height: 100,
-  width: 100,
-  margin: 20,
-  textAlign: 'center',
-  display: 'inline-block',
-};
+import FontIcon from 'material-ui/FontIcon';
 
 class App extends Component {
   async getContractState(decentPostContract) {
@@ -32,6 +25,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <AppBar
+          title="Decent Post"
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+        />
         {this.props.children || <Home/>}
         <DecentPostNav />
       </div>

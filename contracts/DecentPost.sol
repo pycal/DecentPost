@@ -49,12 +49,32 @@ contract DecentPost is ERC721Token {
         NewPackage(newId);
     }
 
+    function packageSender(uint256 _packageId) public view returns(address) {
+      return packageIdToPackage[_packageId].sender;
+    }
+
+    function packageReceiver(uint256 _packageId) public view returns(address) {
+      return packageIdToPackage[_packageId].receiver;
+    }
+
+    function packageState(uint256 _packageId) public view returns(State) {
+      return packageIdToPackage[_packageId].state;
+    }
+
+    function packageMetadata(uint256 _packageId) public view returns(string) {
+      return packageIdToPackage[_packageId].metadata;
+    }
+
     function packageBounty(uint256 _packageId) public view returns (uint256) {
         return packageIdToPackage[_packageId].bounty;
     }
 
     function packageDeliverBy(uint256 _packageId) public view returns (uint256) {
         return packageIdToPackage[_packageId].deliverBy;
+    }
+
+    function packageInsurance(uint256 _packageId) public view returns(uint256) {
+      return packageIdToPackage[_packageId].insurance;
     }
 
     // state must be open in order to accept
