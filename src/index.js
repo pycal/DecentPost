@@ -8,6 +8,7 @@ import registerServiceWorker from './registerServiceWorker';
 import store from './store';
 import App from './components/App';
 import './index.css';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 initializeWeb3();
 
@@ -16,9 +17,11 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render((
     <Provider store={store}>
-      <Router history={history}>
-        <Route path="/" component={App} />
-      </Router>
+      <MuiThemeProvider>
+        <Router history={history}>
+          <Route path="/" component={App} />
+        </Router>
+      </MuiThemeProvider>
     </Provider>
   ),
   document.getElementById('root')
