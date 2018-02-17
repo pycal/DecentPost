@@ -12,18 +12,18 @@ const style = {
 class Map extends Component {
   componentDidMount() {
     mapboxgl.accessToken = 'pk.eyJ1IjoiamRqa2VsbHkyIiwiYSI6ImNqZHJwMzE2ZjJjcmozM2w3MGs2YnM0emIifQ.9tqBPA4_jEs8ZNZCi_YZWw';
-    const start = [-74.50, 40];
-    const end = [74.50, 40];
+    const start = [-104.9895834, 39.7323209];
+    const end = [74.0060, 40.7128];
     const map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/satellite-streets-v10',
+      style: 'mapbox://styles/jdjkelly2/cjdrq9j3q2mom2sonct9s96m0',
       center: start,
-      zoom: 9
+      zoom: 12
     }).flyTo({
       // These options control the ending camera position: centered at
       // the target, at zoom level 9, and north up.
       center: end,
-      zoom: 9,
+      zoom: 12,
       bearing: 0,
 
       // These options control the flight curve, making it move
