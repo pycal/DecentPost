@@ -16,7 +16,7 @@ const style = {
 
 class DecentPostNav extends Component {
   state = {
-    selectedIndex: 0,
+    selectedIndex: null,
   };
 
   select = (index) => this.setState({selectedIndex: index});

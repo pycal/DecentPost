@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
+import CircularProgress from 'material-ui/CircularProgress';
+import TextField from 'material-ui/TextField';
+import MultiStepSendForm from './MultiStepSendForm';
+import PickupLocationForm from './PickupLocationForm';
+
+const CreatePackageForm = () => (
+  <form>
+    <TextField
+      hintText="Address"
+    /><br />
+  </form>
+);
 
 class Send extends Component {
   constructor(props) {
@@ -46,17 +57,24 @@ class Send extends Component {
 
   render() {
     const loading = (
-      <h1>loading</h1>
+      <div>
+        <CircularProgress size={180} thickness={15} />
+      </div>
     )
 
     let body = null;
     if(this.props.contract) {
       body = (
-        <RaisedButton label="Make Package" fullWidth={true} onClick={this.handleSubmit} />
+        <div>
+          <MultiStepSendForm/>
+        </div>
+
       )
     } else {
       body = (
-        <h1>loading</h1>
+        <div>
+          <CircularProgress size={180} thickness={15} />
+        </div>
       )
     }
 
