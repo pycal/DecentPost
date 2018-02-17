@@ -1,8 +1,9 @@
 import React, {Component} from "react";
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import FontIcon from 'material-ui/FontIcon';
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
 import Paper from 'material-ui/Paper';
-import IconLocationOn from 'material-ui/svg-icons/communication/location-on';
 
 const sendIcon = <FontIcon className="material-icons">send</FontIcon>;
 const deliverIcon = <FontIcon className="material-icons">transfer_within_a_station</FontIcon>;
@@ -23,17 +24,29 @@ class DecentPostNav extends Component {
           <BottomNavigationItem
             label="Send"
             icon={sendIcon}
-            onClick={() => this.select(0)}
+            onClick={() => {
+                this.select(0)
+                this.props.dispatchSendRoute()
+              }
+            }
           />
           <BottomNavigationItem
             label="Deliver"
             icon={deliverIcon}
-            onClick={() => this.select(1)}
+            onClick={() => {
+                this.select(1)
+                this.props.dispatchDeliverRoute()
+              }
+            }
           />
           <BottomNavigationItem
             label="Receive"
             icon={receiveIcon}
-            onClick={() => this.select(2)}
+            onClick={() => {
+                this.select(2)
+                this.props.dispatchReceiveRoute()
+              }
+            }
           />
         </BottomNavigation>
       </Paper>
@@ -41,4 +54,17 @@ class DecentPostNav extends Component {
   }
 }
 
-export default DecentPostNav;
+const mapStateToProps = (state, props) => {
+  return {
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchSendRoute: () => dispatch(push('/send')),
+    dispatchDeliverRoute: () => dispatch(push('/deliver')),
+    dispatchReceiveRoute: () => dispatch(push('/receive'))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DecentPostNav);

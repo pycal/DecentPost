@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
 import Home from './Home';
 import DecentPostNav from './DecentPostNav'
+import {push} from "react-router-redux";
 
 const style = {
   height: 100,
