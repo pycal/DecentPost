@@ -26,9 +26,9 @@ ReactDOM.render((
         <Router history={history}>
           <Route path="/" component={App}>
             <IndexRoute component={Home} />
-            <Route path="/send" component={Send}/>
-            <Route path="/deliver" component={Deliver}/>
-            <Route path="/receive" component={Receive}/>
+            <Route path="send" component={Send}/>
+            <Route path="deliver" component={Deliver}/>
+            <Route path="receive" component={Receive}/>
           </Route>
         </Router>
       </MuiThemeProvider>

@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import FontIcon from 'material-ui/FontIcon';
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
@@ -25,7 +26,7 @@ class DecentPostNav extends Component {
             icon={sendIcon}
             onClick={() => {
                 this.select(0)
-                this.props.store.dispatch(push('/send'))
+                this.props.dispatchSendRoute()
               }
             }
           />
@@ -34,7 +35,7 @@ class DecentPostNav extends Component {
             icon={deliverIcon}
             onClick={() => {
                 this.select(1)
-                this.props.store.dispatch(push('/deliver'))
+                this.props.dispatchDeliverRoute()
               }
             }
           />
@@ -43,7 +44,7 @@ class DecentPostNav extends Component {
             icon={receiveIcon}
             onClick={() => {
                 this.select(2)
-                this.props.store.dispatch(push('/receive'))
+                this.props.dispatchReceiveRoute()
               }
             }
           />
@@ -53,4 +54,17 @@ class DecentPostNav extends Component {
   }
 }
 
-export default DecentPostNav;
+const mapStateToProps = (state, props) => {
+  return {
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchSendRoute: () => dispatch(push('/send')),
+    dispatchDeliverRoute: () => dispatch(push('/deliver')),
+    dispatchReceiveRoute: () => dispatch(push('/receive'))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DecentPostNav);
