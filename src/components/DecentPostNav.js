@@ -12,7 +12,7 @@ const receiveIcon = <FontIcon className="material-icons">move_to_inbox</FontIcon
 
 class DecentPostNav extends Component {
   state = {
-    selectedIndex: 0,
+    selectedIndex: null,
   };
 
   select = (index) => this.setState({selectedIndex: index});
