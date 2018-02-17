@@ -30,7 +30,6 @@ class Send extends Component {
       const receiver = "0x14723a09acff6d2a60dcdf7aa4aff308fddc160c"
       const metadata = "abc"
 
-      debugger
       var transaction = this.props.contract.createPackage(
         bounty,
         deliverByEpoch,
