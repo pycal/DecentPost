@@ -8,12 +8,15 @@ import web3Reducer from './util/web3/web3Reducer';
 
 import contractReducer from './reducers/contractReducer';
 
+import { reducer as reduxFormReducer } from 'redux-form';
+
 const middleware = routerMiddleware(browserHistory);
 
 const reducer = combineReducers({
   routing: routerReducer,
   web3: web3Reducer,
-  contract: contractReducer
+  contract: contractReducer,
+  form: reduxFormReducer
 })
 
 const store = createStore(

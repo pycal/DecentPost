@@ -5,7 +5,7 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import asyncValidate from './asyncValidate'
+import RaisedButton from 'material-ui/RaisedButton'
 
 const validate = values => {
   const errors = {}
@@ -73,6 +73,10 @@ const renderSelectField = ({
   />
 )
 
+const setPickupLocation = () => {
+  alert('TODO: hit up google maps for pickup lat / long')
+}
+
 const PickupLocationForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props
   return (
@@ -110,12 +114,7 @@ const PickupLocationForm = props => {
         />
       </div>
       <div>
-        <button type="submit" disabled={pristine || submitting}>
-          Set Location
-        </button>
-        <button type="button" disabled={pristine || submitting} onClick={reset}>
-          Clear Values
-        </button>
+        <RaisedButton label='Set Pickup Location' onClick={setPickupLocation} />
       </div>
     </form>
   )
@@ -124,5 +123,4 @@ const PickupLocationForm = props => {
 export default reduxForm({
   form: 'PickupLocationForm', // a unique identifier for this form
   validate,
-  asyncValidate
 })(PickupLocationForm)

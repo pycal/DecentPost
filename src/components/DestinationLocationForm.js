@@ -5,7 +5,11 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import asyncValidate from './asyncValidate'
+import RaisedButton from 'material-ui/RaisedButton'
+
+const setDestinationLocation = () => {
+  alert('TODO: hit up google maps for destination lat / long')
+}
 
 const validate = values => {
   const errors = {}
@@ -110,12 +114,7 @@ const DestinationLocationForm = props => {
         />
       </div>
       <div>
-        <button type="submit" disabled={pristine || submitting}>
-          Submit
-        </button>
-        <button type="button" disabled={pristine || submitting} onClick={reset}>
-          Clear Values
-        </button>
+        <RaisedButton label='Set Destination Location' onClick={setDestinationLocation} />
       </div>
     </form>
   )
@@ -124,5 +123,4 @@ const DestinationLocationForm = props => {
 export default reduxForm({
   form: 'DestinationLocationForm', // a unique identifier for this form
   validate,
-  asyncValidate
 })(DestinationLocationForm)

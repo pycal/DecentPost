@@ -77,19 +77,11 @@ class MultiStepSendForm extends React.Component {
         <div style={contentStyle}>
           {finished ? (
             <p>
-              <a
-                href="#"
-                onClick={(event) => {
-                  event.preventDefault();
-                  this.setState({stepIndex: 0, finished: false});
-                }}
-              >
-                Click here
-              </a> to reset the example.
+              Woot!
             </p>
           ) : (
             <div>
-              <p>{this.getStepContent(stepIndex)}</p>
+              {this.getStepContent(stepIndex)}
               <div style={{marginTop: 12}}>
                 <FlatButton
                   label="Back"
@@ -98,7 +90,7 @@ class MultiStepSendForm extends React.Component {
                   style={{marginRight: 12}}
                 />
                 <RaisedButton
-                  label={stepIndex === 2 ? 'Finish' : 'Next'}
+                  label={stepIndex === 3 ? 'Finish' : 'Next'}
                   primary={true}
                   onClick={this.handleNext}
                 />

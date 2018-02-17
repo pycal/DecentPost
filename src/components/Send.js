@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
 import { connect } from 'react-redux';
 import CircularProgress from 'material-ui/CircularProgress';
 import TextField from 'material-ui/TextField';
 import MultiStepSendForm from './MultiStepSendForm';
+import PickupLocationForm from './PickupLocationForm';
 
 const CreatePackageForm = () => (
   <form>
@@ -68,7 +68,6 @@ class Send extends Component {
       body = (
         <div>
           <MultiStepSendForm/>
-          <RaisedButton label="Make Package" fullWidth={true} onClick={this.handleSubmit} />
         </div>
 
       )

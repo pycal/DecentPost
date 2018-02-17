@@ -5,7 +5,7 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import asyncValidate from './asyncValidate'
+import RaisedButton from 'material-ui/RaisedButton'
 
 const validate = values => {
   const errors = {}
@@ -75,22 +75,24 @@ const renderSelectField = ({
 const DestinationLocationForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <Field name="bounty" component={renderTextField} label="Bounty" />
-      </div>
-      <div>
-        <Field name="bond" component={renderTextField} label="Bond" />
-      </div>
-      <div>
-        <Field name="deliverBy" component={renderTextField} label="Deliver By" />
-      </div>
-    </form>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <Field name="bounty" component={renderTextField} label="Bounty" />
+        </div>
+        <div>
+          <Field name="bond" component={renderTextField} label="Bond" />
+        </div>
+        <div>
+          <Field name="deliverBy" component={renderTextField} label="Deliver By" />
+        </div>
+      </form>
+      <RaisedButton label="Make Package" fullWidth={true} onClick={this.handleSubmit} />
+    </div>
   )
 }
 
 export default reduxForm({
   form: 'DestinationLocationForm', // a unique identifier for this form
   validate,
-  asyncValidate
 })(DestinationLocationForm)
