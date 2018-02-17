@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
 import Map from './Map';
+import DecentPostNav from './DecentPostNav'
 
 const style = {
   height: 100,
@@ -11,14 +12,14 @@ const style = {
   display: 'inline-block',
 };
 
-
 class App extends Component {
   render() {
     return (
       <div className="App">
         <Paper style={style} zDepth={1}>
-          <h1>Hello</h1>
+          <h1>Hi bud</h1>
         </Paper>
+        <DecentPostNav />
       </div>
     );
   }
