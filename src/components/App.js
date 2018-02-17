@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Paper from 'material-ui/Paper';
-import Map from './Map';
+import Home from './Home';
 import DecentPostNav from './DecentPostNav'
 
 const style = {
@@ -16,9 +16,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Paper style={style} zDepth={1}>
-          <h1>Hi bud</h1>
-        </Paper>
+        {this.props.children || <Home/>}
         <DecentPostNav />
       </div>
     );
