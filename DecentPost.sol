@@ -37,18 +37,24 @@ contract DecentPost is ERC721Token {
         require(msg.value == _bounty);
         uint256 newId = totalSupply().add(1); // just always increment by 1
         super._mint(msg.sender, newId);
-        packageIdToPackage[newId].bounty = _bounty;
-        packageIdToPackage[newId].deliverBy = _deliverBy;
-        packageIdToPackage[newId].insurance = _insurance;
-        packageIdToPackage[newId].receiver = _receiver;
-        packageIdToPackage[newId].metadata = _metadata;
-        packageIdToPackage[newId].state = State.Open;
-        packageIdToPackage[newId].sender = msg.sender;
+        packageIdToPackage[newId] = Package({
+          bounty: _bounty,
+          deliverBy: _deliverBy,
+          insurance: _insurance,
+          receiver: _receiver,
+          metadata: _metadata,
+          state: State.Open,
+          sender = msg.sender
+        })
         NewPackage(newId);
     }
 
-    function getPackageBounty(uint256 _packageId) public view returns (uint256) {
+    function packageBounty(uint256 _packageId) public view returns (uint256) {
         return packageIdToPackage[_packageId].bounty;
+    }
+
+    function packageDeliverBy(uint256 _packageId) public view returns (uint256) {
+        return packageIdToPackage[_packageId].deliverBy;
     }
 
     // state must be open in order to accept
@@ -121,5 +127,7 @@ contract DecentPost is ERC721Token {
     // @todo implement proof of delivery
     //function redeemProofOfDelivery(bytes32 _proof) public;
 
-    //function tokenMetadata(uint256 _tokenId) constant returns (string infoUrl);
+    function tokenMetadata(uint256 _packageId) constant returns (string infoUrl) {
+      return packageIdToPackage[_packageId].metadata;
+    }
 }
