@@ -6,11 +6,14 @@ import { browserHistory } from 'react-router';
 
 import web3Reducer from './util/web3/web3Reducer';
 
-const middleware = routerMiddleware(browserHistory)
+import contractReducer from './reducers/contractReducer';
+
+const middleware = routerMiddleware(browserHistory);
 
 const reducer = combineReducers({
   routing: routerReducer,
-  web3: web3Reducer
+  web3: web3Reducer,
+  contract: contractReducer
 })
 
 const store = createStore(

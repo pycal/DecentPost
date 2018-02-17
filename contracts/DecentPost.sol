@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-import "./ERC721/ERC721Token.sol";
+import "zeppelin-solidity/contracts/token/ERC721/ERC721Token.sol";
 
 contract DecentPost is ERC721Token {
     string constant public NAME = "DecentPost";
@@ -44,8 +44,8 @@ contract DecentPost is ERC721Token {
           receiver: _receiver,
           metadata: _metadata,
           state: State.Open,
-          sender = msg.sender
-        })
+          sender: msg.sender
+        });
         NewPackage(newId);
     }
 
@@ -74,7 +74,7 @@ contract DecentPost is ERC721Token {
     }
 
     // state must be InTransit to lose
-    // should not be callable by recipient
+    // should not be callable by receiver
     // should be callable by "carrier" at any time if InTransit
     // should be callable by sender if lossTimeout has expired and if InTransit
     // should transfer sender's original bounty BACK to them
@@ -114,7 +114,7 @@ contract DecentPost is ERC721Token {
     }
 
     function deliver(uint256 _package) public {
-      require(msg.sender == packageIdToPackage[_package].recipient);
+      require(msg.sender == packageIdToPackage[_package].receiver);
 
       _deliver(_package);
     }
@@ -127,7 +127,7 @@ contract DecentPost is ERC721Token {
     // @todo implement proof of delivery
     //function redeemProofOfDelivery(bytes32 _proof) public;
 
-    function tokenMetadata(uint256 _packageId) constant returns (string infoUrl) {
+    function tokenMetadata(uint256 _packageId) constant public returns (string infoUrl) {
       return packageIdToPackage[_packageId].metadata;
     }
 }
