@@ -57,7 +57,6 @@ class Send extends Component {
     } else {
       body = (
         <h1>loading</h1>
-
       )
     }
 
