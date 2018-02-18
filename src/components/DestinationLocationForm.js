@@ -81,7 +81,17 @@ class DestinationLocationForm extends Component {
     super(props);
     this.setDestinationLocation = this.setDestinationLocation.bind(this);
     // this.gmaps = {lat: 59.95, lng: 30.33, zoom: 11, api_key: 'AIzaSyAkLUTgsp7Bm2FO_o6hJholvCVM6jgtA3w'}.bind(this);
-    this.state = {center: {lat: 59.95, lng: 30.33}, zoom: 12, maps_api_key: 'AIzaSyBW10pqKiQRHZ3I3v3Uof1WpWextat-P_8'};
+    this.state = {
+      center: {lat: 59.95, lng: 30.33},
+      zoom: 12,
+      maps_api_key: 'AIzaSyBW10pqKiQRHZ3I3v3Uof1WpWextat-P_8',
+      selectedIndex: null,
+      selectedAddress: null
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    debugger
   }
 
   setDestinationLocation(event) {

@@ -47,11 +47,15 @@ SelectableList = wrapState(SelectableList);
 class ContactList extends Component {
   constructor(props) {
     super(props);
-    this.state = {selectedIndex: null}
+    this.state = {selectedIndex: null, selectedAddress: null};
+    this.selectIndex = this.selectIndex.bind(this);
   }
 
-  selectIndex(index) {
-    this.setState({selectedIndex: index});
+  selectIndex(contact) {
+    this.setState({
+      selectedIndex: contact.index,
+      selectedAddress: contact.address
+    });
   }
 
   render() {
@@ -62,21 +66,21 @@ class ContactList extends Component {
             primaryText="Chelsea Otakan (0x627306090abaB3A6e1400e9345bC60c78a8BEf57)"
             leftIcon={<ActionGrade color={pinkA200}/>}
             rightAvatar={<Avatar src="images/chexee-128.jpg"/>}
-            onClick={() => this.selectIndex(0)}
+            onClick={() => this.selectIndex({index: 0, address: '0x627306090abaB3A6e1400e9345bC60c78a8BEf57'})}
             value={0}
           />
           <ListItem
             primaryText="Eric Hoffman (0xf17f52151EbEF6C7334FAD080c5704D77216b732)"
             insetChildren={true}
             rightAvatar={<Avatar src="images/kolage-128.jpg"/>}
-            onClick={() => this.selectIndex(1)}
+            onClick={() => this.selectIndex({index: 1, address: '0xf17f52151EbEF6C7334FAD080c5704D77216b732'})}
             value={1}
           />
           <ListItem
             primaryText="James Anderson (0xC5fdf4076b8F3A5357c5E395ab970B5B54098Fef)"
             insetChildren={true}
             rightAvatar={<Avatar src="images/jsa-128.jpg"/>}
-            onClick={() => this.selectIndex(2)}
+            onClick={() => this.selectIndex({index: 2, address: '0xC5fdf4076b8F3A5357c5E395ab970B5B54098Fef'})}
             value={2}
           />
         </SelectableList>
@@ -87,6 +91,8 @@ class ContactList extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    selectedAddress: state.selectedAddress,
+    selectedIndex: state.selectedIndex,
   }
 };
 
