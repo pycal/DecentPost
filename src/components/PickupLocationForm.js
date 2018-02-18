@@ -92,7 +92,6 @@ class PickupLocationForm extends Component {
     fetch(fetch_url)
       .then(res => res.json())
       .then((result) => {
-        debugger
         this.setState({
           center: result.results[0].geometry.location
         })
@@ -100,7 +99,6 @@ class PickupLocationForm extends Component {
   }
 
   render() {
-    debugger
     return (
       <div>
         <form>

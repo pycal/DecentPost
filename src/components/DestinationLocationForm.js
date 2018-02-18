@@ -8,6 +8,7 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
 import GoogleMapReact from 'google-map-react'
+import ContactList from './ContactList'
 
 const validate = values => {
   const errors = {}
@@ -92,7 +93,6 @@ class DestinationLocationForm extends Component {
     fetch(fetch_url)
       .then(res => res.json())
       .then((result) => {
-        debugger
         this.setState({
           center: result.results[0].geometry.location
         })
@@ -100,9 +100,9 @@ class DestinationLocationForm extends Component {
   }
 
   render() {
-    debugger
     return (
       <div>
+        <ContactList/>
         <form>
           <div >
             <Field name="destinationStreetAddress" component={renderTextField} label="Street Address" fullWidth={true} />
