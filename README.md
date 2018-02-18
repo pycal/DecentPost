@@ -1,11 +1,13 @@
 # DecentPost
-Protocol for decentralized postal/shipping services, with Proof of Delivery, bonded shipping, and bounty slashing
+Protocol for decentralized postal/shipping services and apps, with Proof of Delivery, bonded shipping, and bounty slashing.
 
-DecentPost is designed to incentivize Senders and cCouriers to transact in trustless shipping engagements, allowing for global participation in the New Economy.
+DecentPost is designed to incentivize Senders and Couriers to transact in trustless shipping engagements, allowing for global participation in the New Economy.
 
-Concretely, it implements the OpenZeppelin ERC721 contract to allow a Sender to mint a non-fungible Package token.
+Concretely, it implements the OpenZeppelin ERC721 contract to allow a Sender to mint a non-fungible Package token. The token contains the public key of the intended Recipient, which is recoverable later. Metadata regarding the Package is stored on IPFS. And we implement a State Channel to allow for an expedient delivery experience + flexibility in choosing when to sign a transaction to the blockchain.
 
 A Package represents an Offer for Shipment, and the tokens are discoverable on decentralized exchanges or special listing services.
+
+The views in our React app, excluding the public discovery view, show Packages related to the wallet account signed-in to Metamask.
 
 # Parties
 * Sender - creates Packages, which constitute an Offer for Shipment
@@ -14,7 +16,7 @@ A Package represents an Offer for Shipment, and the tokens are discoverable on d
 
 # Incentives
 
-A Shipper can specify a Bond, which a Courier must place in escrow to accept the Offer.
+A Shipper can specify a Bond, which a Courier must place in escrow to accept the Offer for Shipment.
 
 They are incentivized by a Bounty, which the Shipper places in escrow on Package creation.
 
@@ -46,7 +48,3 @@ yield management for long haul trucking and other container services
 bike couriers for legal letters
 local marketplaces for neighbourhood deliveries
 Couriers can pay for duties and require payment during the generation of Proof of Delivery
-
-
-// TODO
-decide what should happen on _deliver if the DEADLINE has been reached
