@@ -1,15 +1,16 @@
 # DecentPost
-Protocol for decentralized postal/shipping services and apps, with Proof of Delivery, bonded shipping, and bounty slashing.
+DecentPost is a protocol for decentralized postal services and apps, with Proof of Delivery, bonded shipping, and bounty slashing.
 
-DecentPost is designed to incentivize Senders and Couriers to transact in trustless shipping engagements, allowing for global participation in the New Economy.
+DecentPost is designed to incentivize Senders, Couriers, and Receivers to transact in trustless shipping arrangements by structuring economic incentives on chain.
 
-Concretely, it implements the OpenZeppelin ERC721 contract to allow a Sender to mint a non-fungible Package token. The token contains the public key of the intended Recipient, which is recoverable later. Metadata regarding the Package is stored on IPFS. And we implement a State Channel to allow for an expedient delivery experience + flexibility in choosing when to sign a transaction to the blockchain.
+Concretely, our contract implements the ERC721 interface (with help from OpenZeppelin) to allow a Sender to mint a non-fungible Package. Metadata regarding the Package is stored on IPFS. And we implement a psuedo-State Channel to allow for amnexpedient delivery experience + flexibility in choosing when to commit a transaction.
 
-A Package represents an Offer for Shipment, and the tokens are discoverable on decentralized exchanges or special listing services.
+A Package represents an Offer for Shipment, and the tokens are discoverable on decentralized exchanges or special listing services, or just by listening to the event logs we emit.
 
-The views in our React app, excluding the public discovery view, show Packages related to the wallet account signed-in to Metamask.
+The views in our React app, excluding the public discovery view, show Packages related to the wallet account signed-in to the web3 provider.
 
 # Parties
+
 * Sender - creates Packages, which constitute an Offer for Shipment
 * Courier - agrees to Offers, transmits Packages, and collects Proofs of Delivery
 * Receiver - can dispute receipt of package
@@ -44,7 +45,11 @@ If a package is undeliverable, a Courier can ReturnToSender.
 
 # Business Cases and Opportunities
 multi-party carriers, i.e. international shipping + last-leg
+
 yield management for long haul trucking and other container services
+
 bike couriers for legal letters
+
 local marketplaces for neighbourhood deliveries
+
 Couriers can pay for duties and require payment during the generation of Proof of Delivery
