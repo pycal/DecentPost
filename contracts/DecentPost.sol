@@ -5,7 +5,6 @@ import "zeppelin-solidity/contracts/token/ERC721/ERC721Token.sol";
 contract DecentPost is ERC721Token {
     string constant public NAME = "DecentPost";
     string constant public SYMBOL = "DPACK";
-    uint256 constant public DEADLINE = 604800; // 7 days
 
     event PackageChanged(uint256 indexed _packageId);
 
@@ -104,7 +103,7 @@ contract DecentPost is ERC721Token {
       require(packageIdToPackage[_package].state == State.InTransit);
       require(msg.sender != packageIdToPackage[_package].receiver);
       if (msg.sender == packageIdToPackage[_package].sender) {
-        require(block.timestamp.add(DEADLINE) >= packageIdToPackage[_package].deliverBy);
+        require(block.timestamp >= packageIdToPackage[_package].deliverBy);
       }
 
       packageIdToPackage[_package].state = State.Lost;
@@ -117,7 +116,7 @@ contract DecentPost is ERC721Token {
     function returnToSender(uint256 _package) public {
       require(packageIdToPackage[_package].state == State.InTransit);
       require(packageIdToPackage[_package].sender == msg.sender);
-      require(block.timestamp.add(DEADLINE) <= packageIdToPackage[_package].deliverBy);
+      require(block.timestamp <= packageIdToPackage[_package].deliverBy);
 
       packageIdToPackage[_package].state = State.ReturnedToSender;
 
@@ -127,7 +126,7 @@ contract DecentPost is ERC721Token {
     }
 
     function _deliver(uint256 _package) internal {
-      require(block.timestamp.add(DEADLINE) <= packageIdToPackage[_package].deliverBy);
+      require(block.timestamp <= packageIdToPackage[_package].deliverBy);
       packageIdToPackage[_package].state = State.Delivered;
 
       // calculate the payout
@@ -149,7 +148,11 @@ contract DecentPost is ERC721Token {
     // @TDO think about the transfer case -- we need to require the _acceptee_ to
     // cover the insurance, and transfer the bonded amount to previous owner
     // @todo implement proof of delivery
-    //function redeemProofOfDelivery(bytes32 _proof) public;
+    function redeemProofOfDelivery(bytes32 _proof, uint256 _package) public {
+      require(_proof == "oktest");
+
+      _deliver(_package);
+    }
 
     function tokenMetadata(uint256 _packageId) constant public returns (string infoUrl) {
       return packageIdToPackage[_packageId].metadata;

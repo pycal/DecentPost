@@ -5,7 +5,10 @@ import Blockies from 'ethereum-blockies';
 import Avatar from 'material-ui/Avatar';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import FontIcon from 'material-ui/FontIcon';
 import Snackbar from 'material-ui/Snackbar';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 import {
   Table,
   TableBody,
@@ -14,6 +17,7 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
+import TextField from 'material-ui/TextField';
 
 const styles = {
   card: {
@@ -34,9 +38,11 @@ class Deliver extends Component {
       ownedPackageIds: [],
       ownedPackages: [],
       open: false,
+      openProof: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleProofSubmit = this.handleProofSubmit.bind(this);
   }
 
  async getPackage(packageId, contract) {
@@ -133,8 +139,6 @@ class Deliver extends Component {
                   return newPackageId.toString() != packageId.toString()
                 })
 
-                debugger
-
                 this.setState({
                   newPackageIds: newPackageIds,
                   newPackages: newPackages
@@ -180,6 +184,15 @@ class Deliver extends Component {
     })
   }
 
+  handleProofOfDelivery(ownedPackage, event) {
+    event.preventDefault();
+
+    this.setState({
+      openProof: true,
+      proofPackageId: ownedPackage.id,
+    })
+  }
+
   createAvatar(seed) {
     return Blockies.create({
       seed: seed,
@@ -188,6 +201,33 @@ class Deliver extends Component {
       size: 10,
       scale: 2
     });
+  }
+
+  handleProofClose = () => {
+    this.setState({
+      openProof: false,
+      proofPackageId: null,
+      proofOfDelivery: null
+    })
+  }
+
+  handleProofSubmit = () => {
+    this.props.contract.redeemProofOfDelivery(
+      this.state.proofOfDelivery,
+      this.state.proofPackageId,
+      {
+        from: this.props.account.account
+      }
+    ).then(
+      (data) => {
+
+      },
+      (error) => {
+        this.setState({
+          proofFail: "Your proof failed!"
+        })
+      }
+    );
   }
 
   handleRequestClose = () => {
@@ -219,6 +259,7 @@ class Deliver extends Component {
       const icon = this.createAvatar(ownedPackage.id);
       const timeLeft = Math.floor(parseInt(ownedPackage.deliverBy) - (new Date().valueOf() / 1000))
 
+      const action = ownedPackage.state == "InTransit" ? (<RaisedButton icon={<FontIcon className="material-icons">gavel</FontIcon>} secondary={true} onClick={(e) => this.handleProofOfDelivery(ownedPackage, e)}/>) : null;
       return (
         <TableRow key={index}>
           <TableRowColumn><Avatar src={icon.toDataURL()} /></TableRowColumn>
@@ -226,7 +267,9 @@ class Deliver extends Component {
           <TableRowColumn>{timeLeft} seconds</TableRowColumn>
           <TableRowColumn>TODO METADATA</TableRowColumn>
           <TableRowColumn>{ownedPackage.state}</TableRowColumn>
-          <TableRowColumn><RaisedButton label="Deliver" onClick={(e) => this.handleSubmit(ownedPackage, e)}/></TableRowColumn>
+          <TableRowColumn>
+            {action}
+          </TableRowColumn>
         </TableRow>
       )
     });
@@ -261,7 +304,7 @@ class Deliver extends Component {
 
         <Card style={styles.card} expanded={true}>
           <CardHeader
-            title="Packages in Transit"
+            title="Bonded Packages"
             subtitle="Remember, bond is law!"
             actAsExpander={true}
             showExpandableButton={true}
@@ -291,6 +334,35 @@ class Deliver extends Component {
           autoHideDuration={3000}
           onRequestClose={this.handleRequestClose}
         />
+
+        <Dialog
+          title="Redeem Proof of Delivery"
+          actions={[
+            <FlatButton
+              label="Cancel"
+              primary={true}
+              onClick={this.handleProofClose}
+            />,
+            <FlatButton
+              label="Submit"
+              primary={true}
+              keyboardFocused={true}
+              onClick={this.handleProofSubmit}
+            />,
+          ]}
+          modal={false}
+          open={this.state.openProof}
+          onRequestClose={this.handleProofClose}
+        >
+
+          <TextField
+            hintText="Redeem PoD from receiver"
+            errorText={this.state.proofFail}
+            onChange={(event, text) => {
+              this.setState({proofOfDelivery: text})
+            }}
+          />
+        </Dialog>
       </div>
     )
   }
