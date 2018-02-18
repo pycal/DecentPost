@@ -5,7 +5,7 @@ DecentPost is designed to incentivize Senders, Couriers, and Receivers to transa
 
 Concretely, our contract implements the ERC721 interface (with help from OpenZeppelin) to allow a Sender to mint a non-fungible Package. Metadata regarding the Package is stored on IPFS. And we implement a psuedo-State Channel to allow for an expedient delivery experience + flexibility in choosing when to commit a transaction.
 
-Packages available for pickup are discoverable just by listening to the event logs we emit.
+Packages available for pickup are discoverable just by listening to the event logs we emit, and are tradable via the ERC721 interface.
 
 # Parties
 
