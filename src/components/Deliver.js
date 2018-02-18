@@ -9,6 +9,9 @@ import FontIcon from 'material-ui/FontIcon';
 import Snackbar from 'material-ui/Snackbar';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import getPackage from '../util/getPackage';
+import ethUtil from 'ethereumjs-util';
+
 import {
   Table,
   TableBody,
@@ -45,51 +48,11 @@ class Deliver extends Component {
     this.handleProofSubmit = this.handleProofSubmit.bind(this);
   }
 
- async getPackage(packageId, contract) {
-   const sender = await contract.packageSender(packageId);
-   const receiver = await contract.packageReceiver(packageId);
-   const bounty = await contract.packageBounty(packageId);
-   const insurance = await contract.packageInsurance(packageId);
-   const deliverBy = await contract.packageDeliverBy(packageId);
-   let state = await contract.packageState(packageId);
-   const owner = await contract.ownerOf(packageId);
-
-   state = state.toString();
-   switch(state) {
-     case "0":
-       state = "Open"
-       break;
-     case "1":
-       state = "InTransit"
-       break;
-     case "2":
-       state = "Lost"
-       break;
-     case "3":
-       state = "ReturnedToSender"
-       break;
-     case "4":
-       state = "Delivered"
-       break;
-    }
-
-   return {
-     id: parseInt(packageId).toString(),
-     sender: sender.toString(),
-     receiver: receiver.toString(),
-     bounty: bounty.toString(),
-     state: state.toString(),
-     insurance: insurance.toString(),
-     owner: owner.toString(),
-     deliverBy: deliverBy.toString()
-   }
- }
-
  updateOwned(contract, account) {
    contract.tokensOf(account).then((data) => {
      data.forEach((packageId) => {
        packageId = parseInt(packageId);
-       this.getPackage(packageId, contract).then((ownedPackage) => {
+       getPackage(packageId, contract).then((ownedPackage) => {
          if (!this.state.ownedPackageIds.includes(ownedPackage.id)) {
            this.setState({
              ownedPackageIds: [...this.state.ownedPackageIds, ownedPackage.id],
@@ -111,7 +74,7 @@ class Deliver extends Component {
       nextProps.contract.PackageChanged({fromBlock: 0, toBlock: 'latest'}).watch((error, result) => {
         if (!error) {
           const packageId = parseInt(result.args._packageId).toString();
-          this.getPackage(packageId, nextProps.contract).then((changedPackage) => {
+          getPackage(packageId, nextProps.contract).then((changedPackage) => {
             if (!this.state.newPackageIds.includes(packageId) && changedPackage.state == "Open") {
               this.setState({
                 newPackageIds: [...this.state.newPackageIds, packageId],
@@ -212,9 +175,16 @@ class Deliver extends Component {
   }
 
   handleProofSubmit = () => {
-    this.props.contract.redeemProofOfDelivery(
-      this.state.proofOfDelivery,
-      this.state.proofPackageId,
+    let message = window.web3.sha3(this.state.proofPackageId.toString());
+    let signature = this.state.proofOfDelivery;
+
+    let signatureData = ethUtil.fromRpcSig(signature)
+    let v = ethUtil.bufferToHex(signatureData.v)
+    let r = ethUtil.bufferToHex(signatureData.r)
+    let s = ethUtil.bufferToHex(signatureData.s)
+
+    this.props.contract.redeemProofOfDelivery.call(
+      message, v, r, s,
       {
         from: this.props.account.account
       }
@@ -250,7 +220,7 @@ class Deliver extends Component {
           <TableRowColumn>{newPackage.deliverBy}</TableRowColumn>
           <TableRowColumn>TODO METADATA</TableRowColumn>
           <TableRowColumn>TODO METADATA</TableRowColumn>
-          <TableRowColumn><RaisedButton label="Accept" onClick={(e) => this.handleSubmit(newPackage, e)}/></TableRowColumn>
+          <TableRowColumn><RaisedButton label="Pick Up" onClick={(e) => this.handleSubmit(newPackage, e)}/></TableRowColumn>
         </TableRow>
       )
     });

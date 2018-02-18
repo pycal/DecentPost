@@ -8,6 +8,9 @@ contract DecentPost is ERC721Token {
 
     event PackageChanged(uint256 indexed _packageId);
 
+    mapping(address => uint256[]) receiving;
+    mapping(address => uint256[]) sending;
+
     enum State {
         Open,
         InTransit,
@@ -45,7 +48,17 @@ contract DecentPost is ERC721Token {
           state: State.Open,
           sender: msg.sender
         });
+        receiving[_receiver].push(newId);
+        sending[msg.sender].push(newId);
         PackageChanged(newId);
+    }
+
+    function sendingOf(address _sender) public view returns (uint256[]) {
+      return sending[_sender];
+    }
+
+    function receivingOf(address _receiver) public view returns (uint256[]) {
+      return receiving[_receiver];
     }
 
     function packageSender(uint256 _packageId) public view returns(address) {
@@ -148,10 +161,16 @@ contract DecentPost is ERC721Token {
     // @TDO think about the transfer case -- we need to require the _acceptee_ to
     // cover the insurance, and transfer the bonded amount to previous owner
     // @todo implement proof of delivery
-    function redeemProofOfDelivery(bytes32 _proof, uint256 _package) public {
-      require(_proof == "oktest");
 
-      _deliver(_package);
+    function redeemProofOfDelivery(bytes32 msgHash, uint8 v, bytes32 r, bytes32 s) constant returns(address) {
+      /* bytes memory prefix = "\x19Ethereum Signed Message:\n32";
+      bytes32 prefixedHash = keccak256(prefix, _hash);
+      require(ecrecover(prefixedHash, v, r, s) == packageIdToPackage[_package].receiver);
+
+      _deliver(_package); */
+      bytes memory prefix = "\x19Ethereum Signed Message:\n32";
+      bytes32 prefixedHash = keccak256(prefix, msgHash);
+      return ecrecover(prefixedHash, v, r, s);
     }
 
     function tokenMetadata(uint256 _packageId) constant public returns (string infoUrl) {
