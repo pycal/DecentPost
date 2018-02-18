@@ -6,6 +6,8 @@ export async function getPackage(packageId, contract) {
   const deliverBy = await contract.packageDeliverBy(packageId);
   let state = await contract.packageState(packageId);
   const owner = await contract.ownerOf(packageId);
+  const metadata = await contract.tokenMetadata(packageId);
+  const resolvedMetadata = await window.$.getJSON(`http://127.0.0.1:8080/ipfs/${metadata}`)
 
   state = state.toString();
   switch(state) {
@@ -34,7 +36,8 @@ export async function getPackage(packageId, contract) {
     state: state.toString(),
     insurance: insurance.toString(),
     owner: owner.toString(),
-    deliverBy: deliverBy.toString()
+    deliverBy: deliverBy.toString(),
+    metadata: resolvedMetadata
   }
 }
 

@@ -6,6 +6,7 @@ import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
+import DatePicker from 'material-ui/DatePicker'
 
 const validate = values => {
   const errors = {}
@@ -37,6 +38,16 @@ const renderTextField = ({
     {...custom}
   />
 )
+
+const renderDateField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => (
+  <DatePicker hintText={label} mode="landscape" fullWidth={true} onChange={(event, date) => { window.deliverBy = date.valueOf() / 1000; }}/>
+)
+
 
 const renderCheckbox = ({ input, label }) => (
   <Checkbox
@@ -72,7 +83,7 @@ const renderSelectField = ({
   />
 )
 
-const DestinationLocationForm = props => {
+const ContractOfferForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props
   return (
     <div>
@@ -84,15 +95,15 @@ const DestinationLocationForm = props => {
           <Field name="bond" component={renderTextField} label="Bond" fullWidth={true} />
         </div>
         <div>
-          <Field name="deliverBy" component={renderTextField} label="Deliver By" fullWidth={true} />
+          <br/>
+          <Field name="deliverBy" component={renderDateField} label="Deliver By" fullWidth={true} />
         </div>
       </form>
-      <RaisedButton label="Make Package" fullWidth={true} onClick={this.handleSubmit} />
     </div>
   )
 }
 
 export default reduxForm({
-  form: 'DestinationLocationForm', // a unique identifier for this form
+  form: 'ContractOfferForm', // a unique identifier for this form
   validate,
-})(DestinationLocationForm)
+})(ContractOfferForm)

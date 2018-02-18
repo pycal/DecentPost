@@ -89,9 +89,11 @@ class PickupLocationForm extends Component {
     let api_key = '&key=AIzaSyAkLUTgsp7Bm2FO_o6hJholvCVM6jgtA3w';
     var fetch_url = base_url + pickup_address + api_key
 
+
     fetch(fetch_url)
       .then(res => res.json())
       .then((result) => {
+        window.pickUpLatLng = result.results[0].geometry.location;
         this.setState({
           center: result.results[0].geometry.location
         })

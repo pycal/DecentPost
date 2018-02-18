@@ -90,10 +90,6 @@ class DestinationLocationForm extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    debugger
-  }
-
   setDestinationLocation(event) {
     let base_url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
     let pickup_address = this.props.fullAddress;
@@ -103,6 +99,7 @@ class DestinationLocationForm extends Component {
     fetch(fetch_url)
       .then(res => res.json())
       .then((result) => {
+        window.destinationLatLng = result.results[0].geometry.location;
         this.setState({
           center: result.results[0].geometry.location
         })

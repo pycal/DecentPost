@@ -211,15 +211,19 @@ class Deliver extends Component {
     // @TODO do this per row
 
     const rowsNew = this.state.newPackages.map((newPackage, index) => {
-      debugger
       const icon = this.createAvatar(newPackage.sender);
+
+      const pickUpMapLink = `https://www.google.com/maps/?q=${newPackage.metadata.destination.lng},${newPackage.metadata.destination.lat}`
+
+      const destinationMapLink = `https://www.google.com/maps/?q=${newPackage.metadata.pickUp.lng},${newPackage.metadata.pickUp.lat}`
+
       return (
         <TableRow key={index}>
           <TableRowColumn><Avatar src={icon.toDataURL()} /></TableRowColumn>
           <TableRowColumn>{parseInt(newPackage.bounty) / 1000000000000000000} ETH / {parseInt(newPackage.insurance) / 1000000000000000000} ETH</TableRowColumn>
           <TableRowColumn>{newPackage.deliverBy}</TableRowColumn>
-          <TableRowColumn>TODO METADATA</TableRowColumn>
-          <TableRowColumn>TODO METADATA</TableRowColumn>
+          <TableRowColumn><a target="_blank" href={pickUpMapLink}>Map</a></TableRowColumn>
+          <TableRowColumn><a target="_blank" href={destinationMapLink}>Map</a></TableRowColumn>
           <TableRowColumn><RaisedButton label="Pick Up" onClick={(e) => this.handleSubmit(newPackage, e)}/></TableRowColumn>
         </TableRow>
       )
@@ -230,12 +234,14 @@ class Deliver extends Component {
       const timeLeft = Math.floor(parseInt(ownedPackage.deliverBy) - (new Date().valueOf() / 1000))
 
       const action = ownedPackage.state == "InTransit" ? (<RaisedButton icon={<FontIcon className="material-icons">gavel</FontIcon>} secondary={true} onClick={(e) => this.handleProofOfDelivery(ownedPackage, e)}/>) : null;
+
+      const mapLink = `https://www.google.com/maps/?q=${ownedPackage.metadata.destination.lng},${ownedPackage.metadata.destination.lat}`
       return (
         <TableRow key={index}>
           <TableRowColumn><Avatar src={icon.toDataURL()} /></TableRowColumn>
           <TableRowColumn>{parseInt(ownedPackage.bounty) / 1000000000000000000} ETH / {parseInt(ownedPackage.insurance) / 1000000000000000000} ETH</TableRowColumn>
           <TableRowColumn>{timeLeft} seconds</TableRowColumn>
-          <TableRowColumn>TODO METADATA</TableRowColumn>
+          <TableRowColumn><a target="_blank" href={mapLink}>Map</a></TableRowColumn>
           <TableRowColumn>{ownedPackage.state}</TableRowColumn>
           <TableRowColumn>
             {action}

@@ -52,10 +52,14 @@ class ContactList extends Component {
   }
 
   selectIndex(contact) {
-    this.setState({
+    let choose = {
       selectedIndex: contact.index,
       selectedAddress: contact.address
-    });
+    }
+
+    window.chosenAddress = choose;
+
+    this.setState(choose);
   }
 
   render() {
@@ -63,24 +67,21 @@ class ContactList extends Component {
       <Paper>
         <SelectableList>
           <ListItem
-            primaryText="Chelsea Otakan (0x627306090abaB3A6e1400e9345bC60c78a8BEf57)"
-            leftIcon={<ActionGrade color={pinkA200}/>}
+            primaryText="Chelsea Otakan (0x627306090abaB3A6e140...)"
             rightAvatar={<Avatar src="images/chexee-128.jpg"/>}
-            onClick={() => this.selectIndex({index: 0, address: '0x627306090abaB3A6e1400e9345bC60c78a8BEf57'})}
+            onClick={() => this.selectIndex({index: 0, address: '0x16078D866DC23919E7e2F800B88b9C27f6B5ac37'})}
             value={0}
           />
           <ListItem
-            primaryText="Eric Hoffman (0xf17f52151EbEF6C7334FAD080c5704D77216b732)"
-            insetChildren={true}
+            primaryText="Eric Hoffman (0xf17f52151EbEF6C7334FAD...)"
             rightAvatar={<Avatar src="images/kolage-128.jpg"/>}
-            onClick={() => this.selectIndex({index: 1, address: '0xf17f52151EbEF6C7334FAD080c5704D77216b732'})}
+            onClick={() => this.selectIndex({index: 1, address: '0x16078D866DC23919E7e2F800B88b9C27f6B5ac37'})}
             value={1}
           />
           <ListItem
-            primaryText="James Anderson (0xC5fdf4076b8F3A5357c5E395ab970B5B54098Fef)"
-            insetChildren={true}
+            primaryText="James Anderson (0xC5fdf4076b8F3A5357c5...)"
             rightAvatar={<Avatar src="images/jsa-128.jpg"/>}
-            onClick={() => this.selectIndex({index: 2, address: '0xC5fdf4076b8F3A5357c5E395ab970B5B54098Fef'})}
+            onClick={() => this.selectIndex({index: 2, address: '0x16078D866DC23919E7e2F800B88b9C27f6B5ac37'})}
             value={2}
           />
         </SelectableList>
