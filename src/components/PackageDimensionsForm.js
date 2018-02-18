@@ -77,16 +77,16 @@ const DestinationLocationForm = props => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <Field name="length" component={renderTextField} label="Length" />
+        <Field name="length" component={renderTextField} label="Length" fullWidth={true} />
       </div>
       <div>
-        <Field name="width" component={renderTextField} label="Width" />
+        <Field name="width" component={renderTextField} label="Width" fullWidth={true} />
       </div>
       <div>
-        <Field name="height" component={renderTextField} label="Height" />
+        <Field name="height" component={renderTextField} label="Height" fullWidth={true} />
       </div>
       <div>
-        <Field name="weight" component={renderTextField} label="Weight" />
+        <Field name="weight" component={renderTextField} label="Weight" fullWidth={true} />
       </div>
     </form>
   )

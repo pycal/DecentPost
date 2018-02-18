@@ -6,6 +6,7 @@ import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
+import ContactList from './ContactList'
 
 const setDestinationLocation = () => {
   alert('TODO: hit up google maps for destination lat / long')
@@ -82,22 +83,26 @@ const DestinationLocationForm = props => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <Field name="streetAddress" component={renderTextField} label="Street Address" />
+        <ContactList />
       </div>
       <div>
-        <Field name="city" component={renderTextField} label="City" />
+        <Field name="streetAddress" component={renderTextField} label="Street Address" fullWidth={true} />
       </div>
       <div>
-        <Field name="province" component={renderTextField} label="Province" />
+        <Field name="city" component={renderTextField} label="City" fullWidth={true} />
       </div>
       <div>
-        <Field name="postalCode" component={renderTextField} label="Postal Code" />
+        <Field name="province" component={renderTextField} label="Province" fullWidth={true} />
+      </div>
+      <div>
+        <Field name="postalCode" component={renderTextField} label="Postal Code" fullWidth={true} />
       </div>
       <div>
         <Field
           name="country"
           component={renderSelectField}
           label="Country"
+          fullWidth={true}
         >
           <MenuItem value="canada" primaryText="Canada" />
           <MenuItem value="usa" primaryText="United States of America" />
@@ -111,6 +116,7 @@ const DestinationLocationForm = props => {
           label="Notes - i.e. buzz 444 to gain access to building"
           multiLine={true}
           rows={2}
+          fullWidth={true}
         />
       </div>
       <div>
