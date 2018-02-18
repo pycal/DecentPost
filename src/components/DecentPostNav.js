@@ -11,7 +11,8 @@ const receiveIcon = <FontIcon className="material-icons">move_to_inbox</FontIcon
 const style = {
   position: 'fixed',
   bottom: 0,
-  width: '100%'
+  width: '100%',
+  zIndex: 2,
 }
 
 class DecentPostNav extends Component {
