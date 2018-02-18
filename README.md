@@ -3,11 +3,9 @@ DecentPost is a protocol for decentralized postal services and apps, with Proof 
 
 DecentPost is designed to incentivize Senders, Couriers, and Receivers to transact in trustless shipping arrangements by structuring economic incentives on chain.
 
-Concretely, our contract implements the ERC721 interface (with help from OpenZeppelin) to allow a Sender to mint a non-fungible Package. Metadata regarding the Package is stored on IPFS. And we implement a psuedo-State Channel to allow for amnexpedient delivery experience + flexibility in choosing when to commit a transaction.
+Concretely, our contract implements the ERC721 interface (with help from OpenZeppelin) to allow a Sender to mint a non-fungible Package. Metadata regarding the Package is stored on IPFS. And we implement a psuedo-State Channel to allow for an expedient delivery experience + flexibility in choosing when to commit a transaction.
 
-A Package represents an Offer for Shipment, and the tokens are discoverable on decentralized exchanges or special listing services, or just by listening to the event logs we emit.
-
-The views in our React app, excluding the public discovery view, show Packages related to the wallet account signed-in to the web3 provider.
+Packages available for pickup are discoverable just by listening to the event logs we emit.
 
 # Parties
 
