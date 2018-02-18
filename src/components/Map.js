@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import logo from '../logo.svg';
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl';
 
 const style = {
@@ -12,14 +13,15 @@ const style = {
 class Map extends Component {
   componentDidMount() {
     mapboxgl.accessToken = 'pk.eyJ1IjoiamRqa2VsbHkyIiwiYSI6ImNqZHJwMzE2ZjJjcmozM2w3MGs2YnM0emIifQ.9tqBPA4_jEs8ZNZCi_YZWw';
-    const end = [-104.9895834, 39.7323209];
-    const start = [-79.405769,43.6557247];
+    const end = [-104.9896020, 39.7323460];
+    const start = [-104.9896020, 39.7323460];
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/outdoors-v9',
       center: start,
-      zoom: 20,
-      pitch: 45
+      zoom: 22,
+      bearing: 270,
+      pitch: 20
     })
 
     map.on('load', function() {
@@ -59,20 +61,49 @@ class Map extends Component {
               'fill-extrusion-opacity': .6
           }
       }, labelLayerId);
+
+      map.loadImage('https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Ethereum_logo_2014.svg/200px-Ethereum_logo_2014.svg.png', function(error, image) {
+        if (error) throw error;
+        map.addImage('ethereum', image);
+        map.addLayer({
+            "id": "points",
+            "type": "symbol",
+            "source": {
+                "type": "geojson",
+                "data": {
+                    "type": "FeatureCollection",
+                    "features": [{
+                        "type": "Feature",
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [-104.9896020, 39.7323460]
+                        }
+                    }]
+                }
+            },
+            "layout": {
+                "icon-image": "ethereum",
+                "icon-size": 0.35
+            }
+        });
+    });
     });
 
     map.flyTo({
       // These options control the ending camera position: centered at
       // the target, at zoom level 9, and north up.
       center: end,
-      zoom: 20,
-      bearing: 0,
+      zoom: 11,
+      bearing: 90,
+      pitch: 45,
+      // pitch: 72,
+      // bearing: 180,
 
       // These options control the flight curve, making it move
       // slowly and zoom out almost completely before starting
       // to pan.
-      speed: 0.6, // make the flying slow
-      curve: 1, // change the speed at which it zooms out
+      speed: 0.7, // make the flying slow
+      curve: 0.4, // change the speed at which it zooms out
 
       // This can be any easing function: it takes a number between
       // 0 and 1 and returns another number between 0 and 1.

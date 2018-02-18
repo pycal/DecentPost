@@ -5,9 +5,8 @@ import "zeppelin-solidity/contracts/token/ERC721/ERC721Token.sol";
 contract DecentPost is ERC721Token {
     string constant public NAME = "DecentPost";
     string constant public SYMBOL = "DPACK";
-    uint256 constant public DEADLINE = 604800; // 7 days
 
-    event NewPackage(uint256 indexed _packageId);
+    event PackageChanged(uint256 indexed _packageId);
 
     enum State {
         Open,
@@ -46,7 +45,7 @@ contract DecentPost is ERC721Token {
           state: State.Open,
           sender: msg.sender
         });
-        NewPackage(newId);
+        PackageChanged(newId);
     }
 
     function packageSender(uint256 _packageId) public view returns(address) {
@@ -91,6 +90,7 @@ contract DecentPost is ERC721Token {
         // transfer the token from the sender to the msg.sender (delivery agent)
         address sender = super.ownerOf(_package);
         clearApprovalAndTransfer(sender, msg.sender, _package);
+        PackageChanged(_package);
     }
 
     // state must be InTransit to lose
@@ -103,34 +103,37 @@ contract DecentPost is ERC721Token {
       require(packageIdToPackage[_package].state == State.InTransit);
       require(msg.sender != packageIdToPackage[_package].receiver);
       if (msg.sender == packageIdToPackage[_package].sender) {
-        require(block.timestamp.add(DEADLINE) >= packageIdToPackage[_package].deliverBy);
+        require(block.timestamp >= packageIdToPackage[_package].deliverBy);
       }
 
       packageIdToPackage[_package].state = State.Lost;
       // returns the original bounty to the sender
       uint256 balanceToTransfer = packageIdToPackage[_package].bounty.add(packageIdToPackage[_package].insurance);
       packageIdToPackage[_package].sender.transfer(balanceToTransfer);
+      PackageChanged(_package);
     }
 
     function returnToSender(uint256 _package) public {
       require(packageIdToPackage[_package].state == State.InTransit);
       require(packageIdToPackage[_package].sender == msg.sender);
-      require(block.timestamp.add(DEADLINE) <= packageIdToPackage[_package].deliverBy);
+      require(block.timestamp <= packageIdToPackage[_package].deliverBy);
 
       packageIdToPackage[_package].state = State.ReturnedToSender;
 
       packageIdToPackage[_package].sender.transfer(packageIdToPackage[_package].bounty);
       super.ownerOf(_package).transfer(packageIdToPackage[_package].insurance);
+      PackageChanged(_package);
     }
 
     function _deliver(uint256 _package) internal {
-      require(block.timestamp.add(DEADLINE) <= packageIdToPackage[_package].deliverBy);
+      require(block.timestamp <= packageIdToPackage[_package].deliverBy);
       packageIdToPackage[_package].state = State.Delivered;
 
       // calculate the payout
       // @todo grade this on a curve
       uint256 balanceToTransfer = packageIdToPackage[_package].bounty.add(packageIdToPackage[_package].insurance);
       super.ownerOf(_package).transfer(balanceToTransfer);
+      PackageChanged(_package);
     }
 
     function deliver(uint256 _package) public {
@@ -145,7 +148,11 @@ contract DecentPost is ERC721Token {
     // @TDO think about the transfer case -- we need to require the _acceptee_ to
     // cover the insurance, and transfer the bonded amount to previous owner
     // @todo implement proof of delivery
-    //function redeemProofOfDelivery(bytes32 _proof) public;
+    function redeemProofOfDelivery(bytes32 _proof, uint256 _package) public {
+      require(_proof == "oktest");
+
+      _deliver(_package);
+    }
 
     function tokenMetadata(uint256 _packageId) constant public returns (string infoUrl) {
       return packageIdToPackage[_packageId].metadata;
