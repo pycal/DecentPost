@@ -78,13 +78,13 @@ const DestinationLocationForm = props => {
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-          <Field name="bounty" component={renderTextField} label="Bounty" />
+          <Field name="bounty" component={renderTextField} label="Bounty" fullWidth={true} />
         </div>
         <div>
-          <Field name="bond" component={renderTextField} label="Bond" />
+          <Field name="bond" component={renderTextField} label="Bond" fullWidth={true} />
         </div>
         <div>
-          <Field name="deliverBy" component={renderTextField} label="Deliver By" />
+          <Field name="deliverBy" component={renderTextField} label="Deliver By" fullWidth={true} />
         </div>
       </form>
       <RaisedButton label="Make Package" fullWidth={true} onClick={this.handleSubmit} />

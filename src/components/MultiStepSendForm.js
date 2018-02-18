@@ -62,16 +62,16 @@ class MultiStepSendForm extends React.Component {
       <div style={{width: '100%', maxWidth: 700, margin: 'auto'}}>
         <Stepper activeStep={stepIndex}>
           <Step>
-            <StepLabel>Set pickup location</StepLabel>
+            <StepLabel>Pickup</StepLabel>
           </Step>
           <Step>
-            <StepLabel>Set delivery location</StepLabel>
+            <StepLabel>Destination</StepLabel>
           </Step>
           <Step>
-            <StepLabel>Describe your package</StepLabel>
+            <StepLabel>Dimensions</StepLabel>
           </Step>
           <Step>
-            <StepLabel>Set bounty and bond</StepLabel>
+            <StepLabel>Offer</StepLabel>
           </Step>
         </Stepper>
         <div style={contentStyle}>
